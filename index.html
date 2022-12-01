@@ -179,10 +179,10 @@
             </div>
             <div id="pointarea">
                 <div id="point">
-                    <img src="https://miki-shimose.github.io/ns-students-help/img/point.png">
+                    <img src="https://miki-shimose.github.io/new-ns-students-help/img/point.png">
                 </div>
                 <div id="map">
-                    <img src="https://miki-shimose.github.io/ns-students-help/img/rio.png">
+                    <img src="https://miki-shimose.github.io/new-ns-students-help/img/rio.png">
                 </div>
             </div>
             <div id="spotrequestarea">
@@ -267,7 +267,7 @@
             var get_par = jQuery(location).attr('search').replace("?classroom=", "");
             if (get_par == "sv" || get_par == "pari") {
                 jQuery("[name=classroom] option[value='" + get_par + "']").prop('selected', true);
-                var get_map_url = "https://miki-shimose.github.io/ns-students-help/img/" + get_par + ".png";
+                var get_map_url = "https://miki-shimose.github.io/new-ns-students-help/img/" + get_par + ".png";
                 jQuery("#map img").attr('src', get_map_url);
             }
         });
