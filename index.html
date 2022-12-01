@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ヘルプサイト｜生徒用</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body {
+            margin: 0;
+        }
+        #header {
+            padding: 5px 30px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+            border-top: 5px solid #1f286f;
+        }
+        #header h1 {
+            font-size: 22px;
+            float: left;
+        }
+        #header p {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .floatchange {
+            clear: both;
+        }
+        #main {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        #maincontent {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        input,
+        select {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        select {
+            color: #fff;
+            background-color: #5c9cd8;
+            padding: 10px 20px;
+            font-size: 17px;
+            border: 0;
+            border-radius: 10px;
+            outline: none;
+            margin: 10px;
+        }
+        button {
+            border: none;
+            cursor: pointer;
+            outline: none;
+            //background-color:#1b86f7;
+            background-color: #5c9cd8;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 18px;
+            padding: 10px 25px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #72afe8;
+        }
+        #push_request_button {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+        input:not([type="checkbox"]) {
+            outline: none;
+            width: 100%;
+            height: 10px;
+            font-size: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #a3a3a3;
+        }
+    </style>
+    <style>
+        #pointarea {
+            max-width: 600px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            user-select: none;
+            cursor: pointer;
+        }
+        #point {
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        #point img {
+            max-width: 40px;
+        }
+        #map {
+            border: 1px solid #9c9c9c;
+            position: absolute;
+            z-index: -2;
+            top: 0;
+            left: 0;
+        }
+        #map img {
+            width: 100%;
+            vertical-align: middle;
+        }
+        #sendarea,
+        #sendloadingarea,
+        #sendresultarea {
+            display: none;
+        }
+        
+        @media screen and (max-width: 620px) {
+            #pointarea {
+                width: 100%;
+                margin: 0 auto;
+            }
+            #header {
+                padding: 5px 15px;
+                margin-bottom: 5px;
+            }
+            #header h1 {
+                margin: 5px 0;
+                font-size: 18px;
+                float: none;
+            }
+            #header p {
+                margin: 4px 0;
+                text-align: right;
+            }
+            #main {
+                margin: 0 5px;
+            }
+            select {
+                font-size: 16px;
+                padding: 5px 20px;
+                margin: 10px;
+            }
+            button {
+                font-size: 16px;
+                padding: 5px 20px;
+                margin: 5px;
+            }
+            .floatchange {
+                clear: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>ヘルプサイト｜生徒用</h1>
+        <p class="login_user">ログイン : <span id="display_mailaddress">取得中です。</span></p>
+        <div class="floatchange"></div>
+    </div>
+    <div id="main">
+        <div id="g_id_onload" data-client_id="449471422945-pnkr8cr1j8rojfnlj9eviha6j2j8eceb" data-auto_select="true"
+            data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with"
+            data-shape="rectangular" data-logo_alignment="left">
+        </div>
+        <div id="messagecontent">
+            <p>N・S高のGoogleアカウント( @nnn.ed.jp )を選択してログインしてください。<br>2度目以降は自動でログインされます。</p>
+        </div>
+        <div id="maincontent">
+            <div id="menu">
+                <select name="classroom">
+                    <option value="rio">リオ</option>
+                    <option value="sv">SV</option>
+                    <option value="pari">パリード</option>
+                </select>
+                <button id="push_request_button">プッシュ通知を受け取る</button>
+            </div>
+            <div id="pointarea">
+                <div id="point">
+                    <img src="https://miki-shimose.github.io/ns-students-help/img/point.png">
+                </div>
+                <div id="map">
+                    <img src="https://miki-shimose.github.io/ns-students-help/img/rio.png">
+                </div>
+            </div>
+            <div id="spotrequestarea">
+                <div id="sendarea">
+                    <p>教室 : <span></span></p>
+                    <p><input id="question_input" type="text" placeholder="質問したいことを簡潔に記入(任意)"
+                            autocomplete="off"></input></p>
+                    <p><button id="send">手を挙げる</button></p>
+                </div>
+                <div id="sendloadingarea">
+                    <p>登録中です。しばらくお待ちください。</p>
+                </div>
+                <div id="sendresultarea">
+                    <div id="waitdisplayarea">
+                        <p>挙手が完了しました。<br>不要になった場合は[ 手を降ろす ]ボタンを押してください。</p>
+                        <p><button id="cancel">手を降ろす</button></p>
+                    </div>
+                    <div style="display:none;" id="nowdisplayarea">
+                        <p>質問の順番になったので、手を挙げて教職員を呼んでください！<br>対応が終わると、このメッセージは非表示になります。</p>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="setting-name"></input>
+            <input type="hidden" id="setting-mail"></input>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js"></script>
+    <script>
+        function handleCredentialResponse(response) {
+            console.log(response.credential);
+            var user_data = parseJwt(response.credential);
+
+            console.log(user_data);
+            
+            console.log('Full Name: ' + user_data.name);
+            console.log("Email: " + user_data.email);
+
+            jQuery("#setting-name").val(user_data.name);
+            jQuery("#setting-mail").val(user_data.email);
+            jQuery("#display_mailaddress").text(user_data.email);
+
+            if (user_data.email.indexOf('@nnn.ed.jp') != -1 || user_data.email.indexOf('@nnn.ac.jp') != -1) {
+                jQuery("#maincontent").css("visibility", "visible");
+                jQuery("#maincontent").css("pointer-events", "auto");
+                jQuery("#messagecontent").css("display", "none");
+            } else {
+                jQuery("#messagecontent").html('<p>N・S高のGoogleアカウント( @nnn.ed.jp )でログインしてください。</p>');
+            }
+        }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var json = decodeURIComponent(atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(json);
+        };
+
+        if (Push.Permission.has() == true) {
+            jQuery("#push_request_button").css("display", "none");
+        }
+
+        jQuery("#push_request_button").on("click", function () {
+            Push.Permission.request(PushonGranted, PushonDenied);
+        });
+
+        function PushonGranted() {
+            jQuery("#push_request_button").css("display", "none");
+            alert("プッシュ通知を許可しました。\n通知が届くようになります。");
+        }
+
+        function PushonDenied() {
+            alert("プッシュ通知を拒否しました。\n今後も通知は届きません。");
+        }
+
+        jQuery(window).on('load', function () {
+            map_size_set();
+
+            var get_par = jQuery(location).attr('search').replace("?classroom=", "");
+            if (get_par == "sv" || get_par == "pari") {
+                jQuery("[name=classroom] option[value='" + get_par + "']").prop('selected', true);
+                var get_map_url = "https://miki-shimose.github.io/ns-students-help/img/" + get_par + ".png";
+                jQuery("#map img").attr('src', get_map_url);
+            }
+        });
+
+        jQuery(window).resize(function () {
+            //map_size_set();
+            //location.reload();
+        });
+
+        function get_request_url(request) {
+            var get_mail = jQuery("#setting-mail").val();
+            return "https://script.google.com/macros/s/AKfycbzvpvLurPlehGx2st_2PVs2Y9QPUZArjwTlxYuarqEMs1rxPN_rTb9xIGo63wv4-dcD/exec?mail=" + get_mail + "&requesttype=" + request;
+        }
+
+        now_request = false;
+
+        function get_classroom_text() {
+            return jQuery('[name=classroom] option:selected').text();
+        }
+
+        function get_classroom_value() {
+            return jQuery('[name=classroom] option:selected').val();
+        }
+
+        jQuery('[name=classroom]').change(function () {
+            if (now_request == false) {
+                var classroom_name = get_classroom_value();
+                var get_map_url = "https://miki-shimose.github.io/ns-students-help/img/" + classroom_name + ".png";
+                jQuery("#map img").attr('src', get_map_url);
+
+                jQuery("#point").css("display", "none");
+                jQuery("#sendarea").css("display", "none");
+            }
+        });
+
+        jQuery("#pointarea").click(function (event) {
+            if (now_request == false) {
+                jQuery("#point").css("display", "block");
+                jQuery("#sendarea").css("display", "block");
+                jQuery("#sendarea span").text(get_classroom_text());
+
+                x = event.offsetX;
+                y = event.offsetY;
+
+                point_img_width = jQuery('#point img').width();
+                point_img_height = jQuery('#point img').height();
+
+                point_img_width = point_img_width / 2 * 1.02;
+                point_img_height = point_img_height / 2 * 1.85;
+
+                map_img_width = jQuery('#map img').width();
+                map_img_height = jQuery('#map img').height();
+
+                width_percent = Math.floor(x / map_img_width * 100);
+                height_percent = Math.floor(y / map_img_height * 100);
+
+                point_set_width = map_img_width * (width_percent / 100) - point_img_width;
+                point_set_height = map_img_height * (height_percent / 100) - point_img_height;
+
+                jQuery("#point").css({ "top": point_set_height, "left": point_set_width });
+
+                get_map_size_width = jQuery('#pointarea').width();
+                get_map_size_height = jQuery('#pointarea').height();
+            }
+        });
+
+        function push_status(type) {
+            if (type == "set_false") {
+                push_status_now = false;
+                return;
+            } else if (type == "get_status") {
+                return push_status_now;
+            } else if (type == "set_true") {
+                push_status_now = true;
+                return;
+            }
+        }
+
+        push_status("set_false");
+
+        function wait_check() {
+            jQuery.ajax({
+                type: "GET",
+                url: get_request_url("spot_wait_check"),
+                dataType: "text"
+            }).done(function (data) {
+                data = JSON.parse(data);
+                data = data["message"];
+                if (data == 'now') {
+                    jQuery("#nowdisplayarea").css("display", "block");
+                    jQuery("#waitdisplayarea").css("display", "none");
+                    if (Push.Permission.has() == true && push_status("get_status") == false) {
+                        push_status("set_true");
+                        Push.create("質問の順番になりました！", { body: '質問の順番になったので、手を挙げて教職員を呼んでください！', timeout: 6000, onClick: function () { this.close(); } });
+                    }
+                }
+                if (data == 'wait') {
+                    jQuery("#nowdisplayarea").css("display", "none");
+                    jQuery("#waitdisplayarea").css("display", "block");
+                    if (push_status("get_status") == true) {
+                        push_status("set_false");
+                    }
+                }
+                if (data == 'complete') {
+                    if (Push.Permission.has() == true && jQuery("#nowdisplayarea").css("display") != "none") {
+                        Push.create("対応が完了しました！", { onClick: function () { this.close(); } });
+                        push_status("set_false");
+                    }
+                    now_request = false;
+                    jQuery('[name=classroom]').prop('disabled', false);
+                    clearInterval(wait_check_interval);
+                    jQuery("#sendresultarea").css("display", "none");
+                    jQuery("#nowdisplayarea").css("display", "none");
+                    jQuery("#waitdisplayarea").css("display", "none");
+                    jQuery("#point").css("display", "none");
+                }
+            }).fail(function () {
+                error_message("reload");
+            });
+        }
+
+        jQuery("#send").click(function () {
+            now_request = true;
+            jQuery('[name=classroom]').prop('disabled', true);
+            jQuery("#sendarea").css("display", "none");
+            jQuery("#sendloadingarea").css("display", "block");
+            jQuery("#waitdisplayarea").css("display", "block");
+            jQuery.ajax({
+                type: "GET",
+                url: get_request_url("spot_register&name=" + jQuery("#setting-name").val() + "&question=" + jQuery("#question_input").val() + "&classroom=" + get_classroom_text() + "&x=" + x + "&y=" + y + "&map_size_width=" + get_map_size_width + "&map_size_height=" + get_map_size_height),
+                dataType: "text"
+            }).done(function (data) {
+                jQuery("#question_input").val("");
+                jQuery("#sendloadingarea").css("display", "none");
+                jQuery("#sendresultarea").css("display", "block");
+                wait_check_interval = setInterval(wait_check, 2000);
+            }).fail(function () {
+                error_message("reload");
+            });
+        });
+
+        jQuery("#cancel").click(function () {
+            jQuery("#sendresultarea").css("display", "none");
+            jQuery("#point").css("display", "none");
+
+            jQuery.ajax({
+                type: "GET",
+                url: get_request_url("spot_cancel"),
+                dataType: "text"
+            }).done(function (data) {
+                console.log(data);
+                clearInterval(wait_check_interval);
+
+                jQuery('[name=classroom]').prop('disabled', false);
+                now_request = false;
+            }).fail(function () {
+                error_message("message");
+            });
+        });
+
+        function map_size_set() {
+            jQuery("#pointarea").css({ "width": "100%", "height": "auto" });
+            map_img_height = jQuery('#map img').height();
+            map_img_width = jQuery('#map img').width();
+            jQuery("#pointarea").css({ "height": map_img_height, "width": map_img_width });
+            jQuery("#question_input").css("width", map_img_width);
+        }
+
+        function error_message(type) {
+            if (type == "reload") {
+                if (!alert("エラーが発生しました。\nリロードします。")) {
+                    location.reload();
+                }
+            } else if (type == "message") {
+                alert("エラーが発生しました。\nもう一度お試しください。");
+            }
+        }
+    </script>
+</body>
+</html>
